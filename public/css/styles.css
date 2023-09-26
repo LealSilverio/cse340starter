@@ -3,14 +3,26 @@
 *:before,
 *:after {
   box-sizing: border-box;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+h2 {
+  font-family: 'Times New Roman', Times, serif;
+}
+ul {
+  margin: 0;
+  padding: 0;
 }
 a, a:before, a:after{
   text-decoration: none;
   color: black;
 }
-ul {
-  padding: 0;
-  margin: 0;
+#top-header {
+  display: flex;
+  justify-content: space-between;
+}
+.siteName {
+  font-weight: 700;
+  font-size: 1.5em;
 }
 nav {
   color: white;
@@ -24,4 +36,87 @@ nav ul {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+}
+.carImage {
+  max-width: 75%;
+  min-width: 50%;
+  height: auto;
+  margin-left: 100px;
+}
+#wrapper {
+  align-items: center;
+  background-color: white;
+  padding: 15px;
+  max-width: 900px;
+  min-width: 300px;
+}
+.background {
+  background-color: #4d96d6;
+}
+.upgrades{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 70px 1fr 1fr;
+  column-gap: 10px;
+  row-gap: 10px;
+}
+.upgrades h2{
+  grid-column: 1/3;
+}
+.banner {
+  position: absolute;
+  top: 20%;
+  background-color: rgba(255, 255, 255, 0.4);
+  color: #4d96d6;
+  font-weight: 700;
+  font-size: 1em;
+}
+.banner p, .banner h2 {
+  margin: 5px;
+}
+.banner img {
+  width: 150px;
+  height: auto;
+}
+.reviews li {
+  padding-bottom: 10px;
+}
+.reviews h2 {
+  padding-bottom: 15px;
+}
+.upgrades div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.upgrades div div {
+  width: 200px;
+  height: 100px;
+  box-shadow: inset 0px 0px 5px 3px #356691;
+}
+.bottom-page {
+  max-width: 900px;
+  min-width: 300px;
+}
+@media screen and (min-width: 800px) {
+  body {
+    background-image: url("/images/site/small_check.jpg");
+    margin: 20px auto;
+    width: 60%;
+  }
+  .bottom-page {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row-reverse;
+    column-gap: 10px;
+  }
+  .banner {
+    top: 25%;
+  }
+}
+@media screen and (min-width: 1500px) {
+  .banner {
+    top: 30%;
+  }
 }
