@@ -28,6 +28,9 @@ nav {
   color: white;
   background-color: black;
 }
+nav a:visited{
+  color: white;
+}
 nav li{
   list-style: none;
   padding: 15px 0;
@@ -98,6 +101,33 @@ nav ul {
 .bottom-page {
   max-width: 900px;
   min-width: 300px;
+}
+#inv-display {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-content: space-around;
+  row-gap: 15px;
+}
+#inv-display hr {
+  border: 3px solid black;
+}
+#inv-display h2 {
+  font-size: 1em;
+}
+#inv-display li{
+  border: solid 1px black;
+  border-radius: 10px;
+  text-align: center;
+  list-style-type: none;
+  width: 15em;
+  height: auto;
+  display: grid;
+  grid-template-rows: 1fr 110px;
+}
+#inv-display img{
+  border-radius: 10px;
+  width: 14.9em;
 }
 @media screen and (min-width: 800px) {
   body {
