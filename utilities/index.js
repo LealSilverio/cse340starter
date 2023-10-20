@@ -72,13 +72,13 @@ Util.buildProductPage = async function(data){
       grid += '<div class="details">'
       grid += '<p>'+ vehicle.inv_make + ' ' + vehicle.inv_model + ' Details'
       grid += '</p>'
-      grid += '<span>Price: $' 
+      grid += '<span><b>Price:</b> $' 
       + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
-      grid += '<p>Description: ' + vehicle.inv_description
+      grid += '<p><b>Description:</b> ' + vehicle.inv_description
       grid += '</p>'
-      grid += '<p>Color: '+ vehicle.inv_color
+      grid += '<p><b>Color:</b> '+ vehicle.inv_color
       grid += '</p>'
-      grid += '<p>Miles: '+ new Intl.NumberFormat('en-US').format(vehicle.inv_miles)
+      grid += '<p><b>Miles:</b> '+ new Intl.NumberFormat('en-US').format(vehicle.inv_miles)
       grid += '</p>'
       grid += '</div>'
     })

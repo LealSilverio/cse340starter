@@ -25,10 +25,9 @@ a, a:before, a:after{
   font-size: 1.5em;
 }
 nav {
-  color: white;
   background-color: black;
 }
-nav a:visited{
+nav, nav a:visited, nav a:active, nav a:hover, nav a:link{
   color: white;
 }
 nav li{
@@ -132,7 +131,7 @@ nav ul {
 }
 @media screen and (min-width: 800px) {
   body {
-    background-image: url("/images/site/small_check.jpg");
+    background-image: url("/images/site/checkerboard.jpg");
     margin: 20px auto;
     width: 60%;
   }
