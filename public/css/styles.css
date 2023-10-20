@@ -83,6 +83,7 @@ nav ul {
 }
 .reviews li {
   padding-bottom: 10px;
+  list-style-type: none;
 }
 .reviews h2 {
   padding-bottom: 15px;
@@ -126,7 +127,7 @@ nav ul {
   grid-template-rows: 1fr 110px;
 }
 #inv-display img{
-  border-radius: 10px;
+  border-radius: 11px;
   width: 14.9em;
 }
 @media screen and (min-width: 800px) {

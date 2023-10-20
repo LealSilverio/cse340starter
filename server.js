@@ -30,6 +30,7 @@ app.set("layout", "./layouts/layout") // not at views root
 app.use(static)
 app.use("/inv", inventoryRoute) // Inventory routes
 app.get("/", utilities.handleErrors(baseController.buildHome)) //Index route
+app.get("/500", utilities.handleErrors(baseController.buildErr500)) //Err 500 route
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})
 }) // File Not Found Route - must be last route in list
@@ -42,14 +43,14 @@ app.use(async (req, res, next) => {
 app.use(async (err, req, res, next) => {
   let nav = await Util.getNav()
   console.error(`Error at: "${req.originalUrl}": ${err.message}`)
-  if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
+  if(err.status == 404){ message = err.message}
+  else {message = 'Oh no! There was a crash. Maybe try a different route?'}
   res.render("errors/error", {
-    title: err.status || 'Server Error',
+    title: err.status || "Server Error",
     message,
     nav
   })
 })
-
 
 /* ***********************
  * Local Server Information
