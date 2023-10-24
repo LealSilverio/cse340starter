@@ -5,15 +5,39 @@
 /* ***********************
  * Require Statements
  *************************/
+const session = require("express-session")
+const pool = require('./database/')
 const express = require("express")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute")
+const accountRoute = require("./routes/accountRoute")
 const expressLayouts = require("express-ejs-layouts")
-const utilities = require("./utilities/")
 const Util = require("./utilities")
+
+
+/* ***********************
+ * Middleware
+ * ************************/
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
+
+// Express Messages Middleware
+app.use(require('connect-flash')())
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+})
 
 
 /* ***********************
@@ -29,8 +53,9 @@ app.set("layout", "./layouts/layout") // not at views root
  *************************/
 app.use(static)
 app.use("/inv", inventoryRoute) // Inventory routes
-app.get("/", utilities.handleErrors(baseController.buildHome)) //Index route
-app.get("/500", utilities.handleErrors(baseController.buildErr500)) //Err 500 route
+app.use("/account", accountRoute) // Account routes
+app.get("/", Util.handleErrors(baseController.buildHome)) //Index route
+app.get("/500", Util.handleErrors(baseController.buildErr500)) //Err 500 route
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})
 }) // File Not Found Route - must be last route in list

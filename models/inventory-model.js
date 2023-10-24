@@ -35,7 +35,7 @@ async function getProductById(inv_id) {
       WHERE inv_id = $1`,
       [inv_id]
     )
-    return data.rows
+    return data.rows[0]
   } catch (error) {
     console.error("getproductbyid error " + error)
   }
