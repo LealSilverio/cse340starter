@@ -94,10 +94,14 @@ Util.buildProductPage = async function(data){
 * ************************************ */
 Util.buildLogin = async function(){
   let form = '<form id=login action="submit">'
-  form += '<label for="email">Email:</label>'
-  form += '<input type="email" name="email">'
-  form += '<label for="password">Password:</label>'
-  form += '<input type="password" name="password">'
+  form += '<div>'
+  form += '<label for="email">Email:<br>'
+  form += '<input type="email" name="email" required>'
+  form += '</label>'
+  form += '<label for="password">Password:<br>'
+  form += '<input type="password" name="password" required>'
+  form += '</label>'
+  form += '</div>'
   form += '<button>Login</button>'
   form += '<p>No account? <a href="#">Sign-up</a></p>'
   form += '</form>'

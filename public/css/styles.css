@@ -129,6 +129,24 @@ nav ul {
   border-radius: 11px;
   width: 14.9em;
 }
+#login {
+  background-color: #356691;
+  color: white;
+  padding: 1.3em;
+  width: 30vw;
+  height: auto;
+  text-align: center;
+}
+
+#login label {
+  margin: 10px 0;
+  text-align: left;
+}
+
+#login a {
+  color: white;
+}
+
 @media screen and (min-width: 800px) {
   body {
     background-image: url("/images/site/checkerboard.jpg");
