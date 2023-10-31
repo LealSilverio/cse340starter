@@ -5,9 +5,12 @@ const utilities = require("../utilities")
 * *************************************** */
 async function buildLogin(req, res, next) {
     let nav = await utilities.getNav()
-    res.render("account/login", {
+    let form = await utilities.buildLogin()
+    req.flash("notice", "This is a flash message.")
+    res.render("./account/login", {
       title: "Login",
       nav,
+      form,
     })
   }
   
