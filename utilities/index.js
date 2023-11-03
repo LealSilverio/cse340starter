@@ -89,25 +89,6 @@ Util.buildProductPage = async function(data){
   return grid
 }
 
-/* **************************************
-* Build the classification view HTML
-* ************************************ */
-Util.buildLogin = async function(){
-  let form = '<form id=login action="submit">'
-  form += '<div>'
-  form += '<label for="email">Email:<br>'
-  form += '<input type="email" name="email" required>'
-  form += '</label>'
-  form += '<label for="password">Password:<br>'
-  form += '<input type="password" name="password" required>'
-  form += '</label>'
-  form += '</div>'
-  form += '<button>Login</button>'
-  form += '<p>No account? <a href="#">Sign-up</a></p>'
-  form += '</form>'
-  return form
-}
-
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 

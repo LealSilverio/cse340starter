@@ -10,13 +10,13 @@ const pool = require('./database/')
 const express = require("express")
 const env = require("dotenv").config()
 const app = express()
+const bodyParser = require("body-parser")
 const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute")
 const accountRoute = require("./routes/accountRoute")
 const expressLayouts = require("express-ejs-layouts")
 const Util = require("./utilities")
-
 
 /* ***********************
  * Middleware
@@ -39,6 +39,10 @@ app.use(function(req, res, next){
   next()
 })
 
+// for parsing application/x-www-form-urlencoded
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) 
+
 
 /* ***********************
  * View Engine and Templates
@@ -53,7 +57,7 @@ app.set("layout", "./layouts/layout") // not at views root
  *************************/
 app.use(static)
 app.use("/inv", inventoryRoute) // Inventory routes
-app.use("/account", accountRoute) // Account routes
+app.use("/account", Util.handleErrors(accountRoute)) // Account routes
 app.get("/", Util.handleErrors(baseController.buildHome)) //Index route
 app.get("/500", Util.handleErrors(baseController.buildErr500)) //Err 500 route
 app.use(async (req, res, next) => {

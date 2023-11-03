@@ -129,21 +129,25 @@ nav ul {
   border-radius: 11px;
   width: 14.9em;
 }
-#login {
-  background-color: #356691;
+form {
+  background-color: #1a3c59;
   color: white;
   padding: 1.3em;
-  width: 30vw;
+  width: 70vw;
   height: auto;
+  margin: 10px auto;
   text-align: center;
 }
-
-#login label {
-  margin: 10px 0;
+form div {
+  text-align: center;
+}
+form label {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
   text-align: left;
 }
-
-#login a {
+form a {
   color: white;
 }
 
