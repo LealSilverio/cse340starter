@@ -25,7 +25,45 @@ async function buildRegister(req, res, next) {
     errors: null,
   })
 }
+ 
+/* ****************************************
+*  Process Login
+* *************************************** */
+async function LogToAccount(req, res) {
+  let nav = await utilities.getNav()
+  const { account_email, account_password } = req.body
   
+  try {
+    // regular password and cost (salt is generated automatically)
+    hashedPassword = await bcrypt.hashSync(account_password, 10)
+  } catch (error) {
+    req.flash("notice", 'Sorry, there was an error on the login')
+    res.status(500).render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+    })
+  }
+
+  const logResult = await accountModel.LogAccount(
+    account_email,
+    hashedPassword
+  )
+
+  if (logResult) {
+    req.flash(
+      "notice",
+      `Congratulations, you\'re logged in`
+    )
+  } else {
+    req.flash("notice", "Sorry, the login failed.")
+    res.status(501).render("account/login", {
+      title: "Login",
+      nav,
+    })
+  }
+}
+
 /* ****************************************
 *  Process Registration
 * *************************************** */
