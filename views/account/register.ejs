@@ -13,8 +13,8 @@
    </ul>
   <% } %>
 
-<!-- Flash Message -->
-<%- messages() %>
+<!-- Message Block -->
+<% if (locals.messages){} %>
 
 <!-- registration -->
 <form action="/account/register" method="post">

@@ -1,0 +1,54 @@
+<!-- Content Heading -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+} %>
+
+<!-- Message Block -->
+<% if (locals.messages){} %>
+
+<!-- Display form -->
+<form action="/inventory/add-inventory" method="post">
+    <label for="classification_name">Classification<br>
+        <%- dropDown %>
+    </label>
+
+    <label for="inv_make">Make<br>
+        <input type="text" name="inv_make" id="inv_make" required value="<%= locals.inv_make %>">
+    </label>
+
+    <label for="inv_model">Model<br>
+        <input type="text" name="inv_model" id="inv_model" required value="<%= locals.inv_model %>">
+    </label>
+
+    <label for="inv_year">Year<br>
+        <input type="text" name="inv_year" id="inv_year" required value="<%= locals.inv_year %>">
+    </label>    
+
+    <label for="inv_description">Description<br>
+        <textarea name="inv_description" id="inv_description" cols="30" rows="10" required value="<%= locals.inv_description %>"></textarea>
+    </label>
+
+    <label for="inv_image">Image path<br>
+        <input type="text" name="inv_image" id="inv_image" required value="<%= locals.inv_image %>">
+    </label>
+
+    <label for="inv_thumbnail">Thumbnail path<br>
+        <input type="text" name="inv_thumbnail" id="inv_thumbnail" required value="<%= locals.inv_thumbnail %>">
+    </label>
+
+    <label for="inv_price">Price<br>
+        <input type="text" name="inv_price" id="inv_price" required value="<%= locals.inv_price %>">
+    </label>
+
+    <label for="inv_miles">Miles<br>
+        <input type="text" name="inv_miles" id="inv_miles" required value="<%= locals.inv_miles %>">
+    </label>
+
+    <label for="inv_color">Color<br>
+        <input type="text" name="inv_color" id="inv_color" required value="<%= locals.inv_color %>">
+    </label>
+
+    <button>Add</button>
+</form>

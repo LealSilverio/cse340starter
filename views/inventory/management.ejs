@@ -1,0 +1,9 @@
+<!-- Content Heading -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+} %>
+
+<button><a href="/inv/add-classification">Add New Classification</a></button>
+<button><a href="/inv/add-inventory">Add New Inventory</a></button>

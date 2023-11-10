@@ -5,8 +5,8 @@
       res.redirect('/')
 } %>
 
-<!-- Flash Message -->
-<%#- messages() %>
+<!-- Message Block -->
+<% if (locals.messages){} %>
 
 <!-- login -->
 <form id="loginForm" action="/account/login" method="post">
