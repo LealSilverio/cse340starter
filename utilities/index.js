@@ -92,7 +92,7 @@ Util.buildProductPage = async function(data){
 /* **************************************
 * Build the add inventory drop down
 * ************************************ */
-Util.buildDropDownForm = async function(classification_id = null){
+Util.buildDropDownForm = async function(classification_id){
   let data = await invModel.getClassifications()
   let classificationList =
   '<select name="classification_id" id="classificationList">'

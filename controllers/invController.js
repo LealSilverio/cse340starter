@@ -46,7 +46,8 @@ invCont.buildManagement = async function (req, res, next) {
 
   res.render("./inventory/management", {
     title: "Management",
-    nav
+    nav,
+    errors: null,
   })
 }
 
@@ -67,26 +68,29 @@ invCont.buildAddClassification = async function (req, res, next) {
 *  Adding Classifications
 * *************************************** */
 invCont.addClassification = async function (req, res) {
-  let nav = await utilities.getNav()
   const { classification_name } = req.body
 
   const classificationResult = await invModel.insertClassification(classification_name)
 
   if (classificationResult) {
+    let nav = await utilities.getNav()
     req.flash(
       "notice",
       `Classification ${classification_name} added.`
     )
-    res.status(201).render("./inventory/add-classification", {
-      title: "Add Classification",
-      nav
+    res.status(201).render("./inventory/management", {
+      title: "Management",
+      nav,
+      errors: null,
     })
   } else {
+    let nav = await utilities.getNav()
     req.flash("notice", "Sorry, something failed.")
     res.status(501).render("./inventory/add-classification", {
       title: "Add Classification",
       nav,
       errors: null,
+      classification_name
     })
   }
 }
@@ -96,13 +100,45 @@ invCont.addClassification = async function (req, res) {
  * ************************** */
 invCont.buildAddInventory = async function (req, res, next) {
   let nav = await utilities.getNav()
-  let dropDown = await utilities.buildDropDownForm()
+  let dropDown = await utilities.buildDropDownForm(classification_id=null)
   res.render("./inventory/add-inventory", {
     title: "Add To Inventory",
     nav,
     errors: null,
     dropDown
   })
+}
+
+/* ****************************************
+*  Adding To Inventory
+* *************************************** */
+invCont.addToInventory = async function (req, res, next) {
+  const { classification_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color } = req.body
+  
+  const invResult = await invModel.insertToInventory(classification_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color)
+
+  if (invResult) {
+    req.flash(
+      "notice",
+      `Data added.`
+    )
+    let nav = await utilities.getNav()
+    res.status(201).render("../inventory/management", {
+      title: "Management",
+      nav,
+      errors: null,
+    })
+  } else {
+    let nav = await utilities.getNav()
+    let dropDown = await utilities.buildDropDownForm(classification_id)
+    req.flash("notice", "Sorry, something failed.")
+    res.status(501).render("./inventory/add-inventory", {
+      title: "Add To Inventory",
+      nav,
+      errors: null,
+      dropDown
+    })
+  }
 }
 
 module.exports = invCont

@@ -12,12 +12,12 @@ validate.insertClassificationRules = () => {
     body("classification_name")
       .trim()
       .isLength({ min: 1 })
-      .matches('^[a-zA-Z]+$')
+      .matches('^[A-Za-z]+$')
       .withMessage("Please provide a classification name.")
       .custom(async (classification_name) => {
         const classificationExists = await invModel.checkClassification(classification_name)
         if (classificationExists){
-          throw new Error("classification exists. Please try a different one")
+          throw new Error("Classification exists. Please try a different one")
         }
       }),
   ]
@@ -27,7 +27,7 @@ validate.insertClassificationRules = () => {
 * Check data and return errors or continue to add-classification
 * ***************************** */
 validate.checkClassificationData = async (req, res, next) => {
-  const classification_name = req.body
+  const { classification_name } = req.body;
   let errors = []
   errors = validationResult(req)
   if (!errors.isEmpty()) {
@@ -50,7 +50,8 @@ validate.insertInvRules = () => {
     return [
       // classification is required
       body("classification_id")
-        .withMessage("Please provide a car make."),
+      .isLength({ min:1 })  
+      .withMessage("Please provide a car make."),
 
       // make is required and must be string
       body("inv_make")
@@ -91,12 +92,14 @@ validate.insertInvRules = () => {
 
       // price is required and must be a number
       body("inv_price")
-        .isInt({ min: 0, max: 9 })
+        .isInt({ min: 1, max: 9 })
+        .isLength({min: 1})
         .withMessage("Please provide a price."),
 
       // miles is required and must be a number
       body("inv_miles")
-        .isInt({ min: 0, max: 12 })
+        .isInt({ min: 1, max: 12 })
+        .isLength({min: 1})
         .withMessage("Please provide the miles."),
 
       // color is required and must be a string
@@ -116,11 +119,12 @@ validate.checkInvData = async (req, res, next) => {
     errors = validationResult(req)
     if (!errors.isEmpty()) {
       let nav = await utilities.getNav()
+      const classification = utilities.buildDropDownForm(classification_id);
       res.render("inventory/add-inventory", {
         errors,
         title: "Add Inventory",
         nav,
-        classification_id,
+        classification,
         inv_make,
         inv_model,
         inv_year,

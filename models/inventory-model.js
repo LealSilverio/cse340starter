@@ -71,4 +71,16 @@ invModel.checkClassification = async function (classification_name) {
   }
 }
 
+/* ***************************
+ *  Add to inventory
+ * ************************** */
+invModel.insertToInventory = async function (classification_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color) {
+  try {
+    const sql = "INSERT INTO account (inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *"
+    return await pool.query(sql, [inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id])
+  } catch (error) {
+    return error.message
+  }
+}
+
 module.exports = invModel;
