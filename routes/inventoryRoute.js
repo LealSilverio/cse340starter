@@ -12,7 +12,6 @@ router.get("/", utilities.handleErrors(invController.buildManagement)); // manag
 router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification)); // add classification
 router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventory)); // add inventory
 
-
 // Process data
 router.post(
     "/add-classification",

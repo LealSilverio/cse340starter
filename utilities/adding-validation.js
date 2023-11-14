@@ -119,12 +119,12 @@ validate.checkInvData = async (req, res, next) => {
     errors = validationResult(req)
     if (!errors.isEmpty()) {
       let nav = await utilities.getNav()
-      const classification = utilities.buildDropDownForm(classification_id);
+      const dropDown = utilities.buildDropDownForm(classification_id);
       res.render("inventory/add-inventory", {
         errors,
         title: "Add Inventory",
         nav,
-        classification,
+        dropDown,
         inv_make,
         inv_model,
         inv_year,

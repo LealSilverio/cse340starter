@@ -89,7 +89,6 @@ invCont.addClassification = async function (req, res) {
     res.status(501).render("./inventory/add-classification", {
       title: "Add Classification",
       nav,
-      errors: null,
       classification_name
     })
   }
@@ -123,7 +122,7 @@ invCont.addToInventory = async function (req, res, next) {
       `Data added.`
     )
     let nav = await utilities.getNav()
-    res.status(201).render("../inventory/management", {
+    res.status(201).render("./inventory/management", {
       title: "Management",
       nav,
       errors: null,
@@ -135,7 +134,6 @@ invCont.addToInventory = async function (req, res, next) {
     res.status(501).render("./inventory/add-inventory", {
       title: "Add To Inventory",
       nav,
-      errors: null,
       dropDown
     })
   }

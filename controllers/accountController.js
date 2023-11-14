@@ -32,35 +32,26 @@ async function buildRegister(req, res, next) {
 async function logToAccount(req, res) {
   let nav = await utilities.getNav()
   const { account_email, account_password } = req.body
-  
-  try {
-    // regular password and cost (salt is generated automatically)
-    hashedPassword = await bcrypt.hashSync(account_password, 10)
-  } catch (error) {
-    req.flash("notice", 'Sorry, there was an error on the login')
-    res.status(500).render("account/login", {
+  const accountData = await accountModel.getAccountByEmail(account_email)
+  if (!accountData) {
+    req.flash("notice", "Please check your credentials and try again.")
+    res.status(400).render("account/login", {
       title: "Login",
       nav,
       errors: null,
+      account_email,
     })
+    return
   }
-
-  const logResult = await accountModel.LogAccount(
-    account_email,
-    hashedPassword
-  )
-
-  if (logResult) {
-    req.flash(
-      "notice",
-      `Congratulations, you\'re logged in`
-    )
-  } else {
-    req.flash("notice", "Sorry, the login failed.")
-    res.status(501).render("account/login", {
-      title: "Login",
-      nav,
-    })
+  try {
+    if (await bcrypt.compare(account_password, accountData.account_password)) {
+      delete accountData.account_password
+      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
+      res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+      return res.redirect("/account/")
+      }
+    } catch (error) {
+      return new Error('Access Forbidden')
   }
 }
 
