@@ -17,6 +17,7 @@ const inventoryRoute = require("./routes/inventoryRoute")
 const accountRoute = require("./routes/accountRoute")
 const expressLayouts = require("express-ejs-layouts")
 const Util = require("./utilities")
+const cookieParser = require("cookie-parser")
 
 /* ***********************
  * Middleware
@@ -31,6 +32,7 @@ app.use(session({
   saveUninitialized: true,
   name: 'sessionId',
 }))
+app.use(Util.checkJWTToken)
 
 // Express Messages Middleware
 app.use(require('connect-flash')())
@@ -42,6 +44,7 @@ app.use(function(req, res, next){
 // for parsing application/x-www-form-urlencoded
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) 
+app.use(cookieParser())
 
 
 /* ***********************

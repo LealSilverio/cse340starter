@@ -89,7 +89,6 @@ invCont.addClassification = async function (req, res) {
     res.status(501).render("./inventory/add-classification", {
       title: "Add Classification",
       nav,
-      errors: null,
       classification_name
     })
   }
