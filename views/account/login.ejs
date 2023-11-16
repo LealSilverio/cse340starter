@@ -6,11 +6,18 @@
 } %>
 
 <!-- Message Block -->
-<% if (locals.messages){} %>
+<%- messages() %>
+<% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+<% } %>
 
 <!-- login -->
 <form id="loginForm" action="/account/login" method="post">
-  <div>
+  <div class="data-box">
     <label for="account_email">Email:<br>
       <input type="email" name="account_email" id="accountEmail" required value="<%= locals.account_email %>">
     </label>
