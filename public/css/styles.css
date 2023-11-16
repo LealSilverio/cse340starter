@@ -16,6 +16,14 @@ a, a:before, a:after{
   text-decoration: none;
   color: black;
 }
+.notice {
+  padding: 10px;
+  background-color: rgb(209, 67, 67);
+  font-weight: 600;
+}
+.notice li {
+  list-style: none;
+}
 #top-header {
   display: flex;
   justify-content: space-between;
@@ -130,26 +138,26 @@ nav ul {
   width: 14.9em;
 }
 form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: #1a3c59;
   color: white;
   padding: 25px 40px;
   width: 430px;
   height: auto;
   margin: 10px auto;
-  text-align: center;
 }
-form div {
-  text-align: center;
-}
-form label {
-  display: flex;
-  flex-direction: column;
-  margin: 20px 0;
-  text-align: left;
-}
-label input {
+.data-box input, .data-box textarea, #classificationList {
   padding: 5px 10px;
-  margin-top: 5px;
+  margin: 5px 0;
+  width: -webkit-fill-available;
+}
+.data-box input:valid, .data-box textarea:valid, #classificationList:valid {
+  border: solid 3px rgb(15, 182, 15);
+}
+.data-box input:invalid, .data-box textarea:invalid, #classificationList:invalid {
+  border: solid 3px rgb(190, 17, 17);
 }
 form span {
   margin: 10px 0;
@@ -158,10 +166,12 @@ form button {
   background-color: white;
   border: none;
   color: #1a3c59;
+  max-width: 200px;
   font-size: 1.2em;
   font-weight: 600;
   padding: 10px 20px;
   border-radius: 10px;
+  margin-top: 10px;
 }
 form a , button a{
   color: white;

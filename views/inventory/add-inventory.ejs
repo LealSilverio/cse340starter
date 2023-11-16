@@ -6,49 +6,47 @@
 } %>
 
 <!-- Message Block -->
-<% if (locals.message){messages()} %>
+<%- messages() %>
+<% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+<% } %>
 
 <!-- Display form -->
 <form action="/inv/add-inventory" method="post">
-    <label for="classification_name">Classification<br>
+    <div class="data-box">
+        <label for="classificationList">Classification</label>
         <%- dropDown %>
-    </label>
 
-    <label for="inv_make">Make<br>
-        <input type="text" name="inv_make" id="invMake" pattern="^[A-Za-z]+$" required value="<%= locals.inv_make %>">
-    </label>
+        <label for="inv_make">Make</label>
+        <input type="text" name="inv_make" id="inv_make" placeholder="e.g Harley-Davidson" required value="<%= locals.inv_make %>">
 
-    <label for="inv_model">Model<br>
-        <input type="text" name="inv_model" id="invModel" required value="<%= locals.inv_model %>">
-    </label>
+        <label for="inv_model">Model</label>
+        <input type="text" name="inv_model" id="inv_model" placeholder="e.g Heritage Softail Classic" required  value="<%= locals.inv_model %>">
 
-    <label for="inv_year">Year<br>
-        <input type="text" name="inv_year" id="invYear" pattern="^[0-9]*$" required value="<%= locals.inv_year %>">
-    </label>    
+        <label for="inv_year">Year</label>
+        <input type="text" name="inv_year" id="inv_year" pattern="^[0-9]*$" placeholder="e.g 2016" required  value="<%= locals.inv_year %>">    
 
-    <label for="inv_description">Description<br>
-        <textarea name="inv_description" id="invDescription" cols="30" rows="10" required value="<%= locals.inv_description %>"></textarea>
-    </label>
+        <label for="inv_description">Description</label>
+        <textarea name="inv_description" id="inv_description" cols="30" rows="10" placeholder="Insert description here... " required  value="<%= locals.inv_description %>"></textarea>
 
-    <label for="inv_image">Image path<br>
-        <input type="text" name="inv_image" id="invImage" required value="<%= locals.inv_image %>">
-    </label>
+        <label for="inv_image">Image path</label>
+        <input type="text" name="inv_image" id="inv_image" required value="<%= locals.inv_image %>public/images/vehicles/no-image.png">
 
-    <label for="inv_thumbnail">Thumbnail path<br>
-        <input type="text" name="inv_thumbnail" id="invThumbnail" required value="<%= locals.inv_thumbnail %>">
-    </label>
+        <label for="inv_thumbnail">Thumbnail path</label>
+        <input type="text" name="inv_thumbnail" id="inv_thumbnail" required  value="<%= locals.inv_thumbnail %>public/images/vehicles/no-image-tn.png">
 
-    <label for="inv_price">Price<br>
-        <input type="text" name="inv_price" id="invPrice" pattern="^[0-9]*$" required value="<%= locals.inv_price %>">
-    </label>
+        <label for="inv_price">Price</label>
+        <input type="text" name="inv_price" id="inv_price" pattern="^[0-9]*$" placeholder="e.g 13000" required  value="<%= locals.inv_price %>">
 
-    <label for="inv_miles">Miles<br>
-        <input type="text" name="inv_miles" id="invMiles" pattern="^[0-9]*$" required value="<%= locals.inv_miles %>">
-    </label>
+        <label for="inv_miles">Miles</label>
+        <input type="text" name="inv_miles" id="inv_miles" pattern="^[0-9]*$" placeholder="e.g 500" required  value="<%= locals.inv_miles %>">
 
-    <label for="inv_color">Color<br>
-        <input type="text" name="inv_color" id="invColor" required value="<%= locals.inv_color %>">
-    </label>
-
+        <label for="inv_color">Color</label>
+        <input type="text" name="inv_color" id="inv_color" placeholder="e.g Orange" required  value="<%= locals.inv_color %>">
+    </div>
     <button>Add</button>
 </form>

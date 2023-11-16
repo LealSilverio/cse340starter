@@ -6,13 +6,22 @@
 } %>
 
 <!-- Message Block -->
-<% if (errors){messages()} %>
+<%- messages() %>
+<% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+<% } %>
 
 <!-- Display form -->
 <form action="/inv/add-classification" method="post">
-    <label for="classification_name">New Classification
-        <input type="text" name="classification_name" id="classification_name"  pattern="^[A-Za-z]+$" required value="<%= locals.classification_name %>">
-        <span>New classification name cannot contain a space or special character</span>
-    </label>
+    <div class="data-box">
+        <label for="classification_name">New Classification</label>
+        <input type="text" name="classification_name" id="classification_name" pattern="^[A-Za-z]+$" placeholder="e.g. Motorcycle" required value="<%= locals.classification_name %>">
+    </div>
+    <span>New classification name cannot contain a space or special character</span>
+    
     <button>Add</button>
 </form>
