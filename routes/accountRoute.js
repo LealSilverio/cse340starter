@@ -8,11 +8,10 @@ const jwt = require("jsonwebtoken")
 require("dotenv").config()
 
 // Route to build pages
-router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildManagement));
-
-router.get("/login", utilities.handleErrors(accountController.buildLogin));
-
-router.get("/register", utilities.handleErrors(accountController.buildRegister));
+router
+    .get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildManagement)) // management view
+    .get("/login", utilities.handleErrors(accountController.buildLogin)) // login view
+    .get("/register", utilities.handleErrors(accountController.buildRegister)); // registration view
 
 // Process the registration data
 router.post(

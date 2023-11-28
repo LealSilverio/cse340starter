@@ -6,11 +6,13 @@ const utilities = require("../utilities")
 const insertValidate = require('../utilities/adding-validation')
 
 // Routes to build
-router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId)); // inventory by classification view
-router.get("/detail/:inv_id", utilities.handleErrors(invController.buildById)); // product page
-router.get("/", utilities.handleErrors(invController.buildManagement)); // management page
-router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification)); // add classification
-router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventory)); // add inventory
+router
+    .get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId)) // inventory by classification view
+    .get("/detail/:inv_id", utilities.handleErrors(invController.buildById)) // product page
+    .get("/", utilities.handleErrors(invController.buildManagement)) // management page
+    .get("/add-classification", utilities.handleErrors(invController.buildAddClassification)) // add classification
+    .get("/add-inventory", utilities.handleErrors(invController.buildAddInventory)) // add inventory
+    .get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON)) // get inventory JSON
 
 // Process data
 router.post(
