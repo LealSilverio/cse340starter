@@ -13,6 +13,8 @@ router
     .get("/add-classification", utilities.handleErrors(invController.buildAddClassification)) // add classification
     .get("/add-inventory", utilities.handleErrors(invController.buildAddInventory)) // add inventory
     .get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON)) // get inventory JSON
+    .get("/edit/:inv_id", utilities.handleErrors(invController.buildEditInventory)) // edit inventory
+    .get("/delete/:inv_id", utilities.handleErrors(invController.buildDeleteInventory)); // delete inventory
 
 // Process data
 router.post(
@@ -26,6 +28,18 @@ router.post(
     insertValidate.insertInvRules(),
     insertValidate.checkInvData,
     utilities.handleErrors(invController.addToInventory)
+)
+
+router.post(
+    "/edit",
+    insertValidate.insertInvRules(),
+    insertValidate.checkUpdateData,
+    utilities.handleErrors(invController.updateInventory)
+)
+
+router.post(
+    "/delete",
+    utilities.handleErrors(invController.deleteInventory)
 )
 
 module.exports = router;

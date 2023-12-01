@@ -16,6 +16,19 @@ a, a:before, a:after{
   text-decoration: none;
   color: black;
 }
+button {
+  background-color: #1a3c59;
+  color: white;
+  border: none;
+  font-size: 1.2em;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+button:hover {
+  background-color: #1e4a70;
+  cursor: pointer;
+}
 .notice {
   padding: 10px;
   background-color: rgb(209, 67, 67);
@@ -173,17 +186,13 @@ form button {
   border-radius: 10px;
   margin-top: 10px;
 }
-form a , button a{
+form button:hover {
+  background-color: #dee2e5;
+}
+form a{
   color: white;
 }
-button {
-  background-color: #1a3c59;
-  border: none;
-  font-size: 1.2em;
-  font-weight: 600;
-  padding: 10px 20px;
-  border-radius: 10px;
-}
+
 
 #inv_description {
   width: 350px;

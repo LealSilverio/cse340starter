@@ -67,6 +67,7 @@ validate.insertInvRules = () => {
 
       // year is required and must be a number
       body("inv_year")
+        .trim()
         .isInt({ min: 0, max: 4 })
         .withMessage("Please provide a year."),
 
@@ -80,7 +81,7 @@ validate.insertInvRules = () => {
       body("inv_image")
         .trim()
         .isLength({ min: 2 })
-        .isIn([ "png", "jpeg", "jpg", "gif", "webp", "svg" ])
+        .isIn([ "png" || "jpeg" || "jpg" || "gif" || "webp" || "svg" ])
         .withMessage("Please provide an image path."),
       
       // thumbnail is required and must be a string
@@ -139,5 +140,38 @@ validate.checkInvData = async (req, res, next) => {
     }
     next()
 }
-  
+
+
+/* ******************************
+ * Check update data and return errors
+ * ***************************** */
+validate.checkUpdateData = async (req, res, next) => {
+  const { inv_id, classification_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color } = req.body
+  let errors = []
+  errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    const dropDown = utilities.buildDropDownForm(classification_id);
+    const itemTitle = `${inventory_item[0].inv_make} ${inventory_item[0].inv_model}`
+    res.render("./inventory/edit-inventory", {
+      errors,
+      title: "Update "+ itemTitle,
+      nav,
+      dropDown,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      inv_id
+    })
+    return
+  }
+  next()
+}
+
 module.exports = validate

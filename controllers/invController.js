@@ -16,6 +16,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
     title: className + " vehicles",
     nav,
     grid,
+    errors: null,
   })
 }
 
@@ -35,6 +36,7 @@ invCont.buildById = async function (req, res, next) {
     title: year + " " + make + " " + model,
     nav,
     grid,
+    errors: null,
   })
 }
 
@@ -42,15 +44,20 @@ invCont.buildById = async function (req, res, next) {
  *  Build management page
  * ************************** */
 invCont.buildManagement = async function (req, res, next) {
-  let nav = await utilities.getNav()
-  const dropDown = await utilities.buildDropDownForm()
+  // if (req.locals.accountData.account_type == "Employee" || req.locals.accountData.account_type == "Admin") {
+    let nav = await utilities.getNav()
+    const dropDown = await utilities.buildDropDownForm()
 
-  res.render("./inventory/management", {
-    title: "Management",
-    nav,
-    errors: null,
-    dropDown
-  })
+    res.render("./inventory/management", {
+      title: "Management",
+      nav,
+      errors: null,
+      dropDown
+    })
+  // } else {
+  //   req.flash("notice", "Sorry, you do not have access to this page. Log in as an employee or admin.")
+  //   res.redirect("/account/login")
+  // }
 }
 
 /* ***************************
@@ -76,6 +83,7 @@ invCont.addClassification = async function (req, res) {
 
   if (classificationResult) {
     let nav = await utilities.getNav()
+    const dropDown = await utilities.buildDropDownForm()
     req.flash(
       "notice",
       `Classification ${classification_name} added.`
@@ -84,6 +92,7 @@ invCont.addClassification = async function (req, res) {
       title: "Management",
       nav,
       errors: null,
+      dropDown
     })
   } else {
     let nav = await utilities.getNav()
@@ -151,6 +160,133 @@ invCont.getInventoryJSON = async (req, res, next) => {
     return res.json(invData)
   } else {
     next(new Error("No data returned"))
+  }
+}
+
+/* ***************************
+ *  Build edit inventory page
+ * ************************** */
+invCont.buildEditInventory = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const inventory_item = await invModel.getProductById(parseInt(req.params.inv_id))
+  const dropDown = await utilities.buildDropDownForm(inventory_item.classification_id)
+  const itemTitle = `${inventory_item[0].inv_make} ${inventory_item[0].inv_model}`
+  
+  res.render("./inventory/edit-inventory", {
+    title: "Update "+ itemTitle,
+    nav,
+    dropDown: dropDown,
+    errors: null,
+    inv_id: inventory_item.inv_id,
+    inv_make: inventory_item.inv_make,
+    inv_model: inventory_item.inv_model,
+    inv_year: inventory_item.inv_year,
+    inv_description: inventory_item.inv_description,
+    inv_image: inventory_item.inv_image,
+    inv_thumbnail: inventory_item.inv_thumbnail,
+    inv_price: inventory_item.inv_price,
+    inv_miles: inventory_item.inv_miles,
+    inv_color: inventory_item.inv_color,
+    classification_id: inventory_item.classification_id
+  })
+}
+
+/* ***************************
+ *  Update Inventory Data
+ * ************************** */
+invCont.updateInventory = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const {
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classification_id
+  } = req.body
+  const updateResult = await invModel.updateInventory(
+    inv_id,  
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classification_id
+  )
+
+  if (updateResult) {
+    const itemName = updateResult.inv_make + " " + updateResult.inv_model
+    req.flash("notice", `The ${itemName} was successfully updated.`)
+    res.redirect("/inv/")
+  } else {
+    const dropDown = await utilities.buildDropDownForm(classification_id)
+    const itemName = `${inv_make} ${inv_model}`
+    req.flash("notice", "Sorry, the insert failed.")
+    res.status(501).render("./inventory/edit-inventory", {
+    title: "Edit " + itemName,
+    nav,
+    dropDown: dropDown,
+    errors: null,
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id
+    })
+  }
+}
+
+/* ***************************
+ *  Build delete inventory page
+ * ************************** */
+invCont.buildDeleteInventory = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const inventory_item = await invModel.getProductById(parseInt(req.params.inv_id))
+
+  const itemTitle = `${inventory_item[0].inv_make} ${inventory_item[0].inv_model}`
+  
+  res.render("./inventory/delete", {
+    title: "Delete "+ itemTitle,
+    nav,
+    errors: null,
+    inv_id: inventory_item.inv_id,
+    inv_make: inventory_item.inv_make,
+    inv_model: inventory_item.inv_model,
+    inv_year: inventory_item.inv_year,
+    inv_price: inventory_item.inv_price,
+
+    classification_id: inventory_item.classification_id
+  })
+}
+
+/* ***************************
+ *  Delete Inventory Data
+ * ************************** */
+invCont.deleteInventory = async function (req, res, next) {
+  const inv_id = req.params.inv_id
+  const deleteResult = await invModel.deleteInventory(inv_id)
+  
+  if (deleteResult) {
+    req.flash("notice", `The item was successfully deleted.`)
+    res.redirect("/inv/")
+  } else {
+    req.flash("notice", "Sorry, the delete failed.")
+    res.redirect("/inv/delete/" + inv_id)
   }
 }
 
