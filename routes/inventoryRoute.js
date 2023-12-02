@@ -9,12 +9,12 @@ const insertValidate = require('../utilities/adding-validation')
 router
     .get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId)) // inventory by classification view
     .get("/detail/:inv_id", utilities.handleErrors(invController.buildById)) // product page
-    .get("/", utilities.handleErrors(invController.buildManagement)) // management page
-    .get("/add-classification", utilities.handleErrors(invController.buildAddClassification)) // add classification
-    .get("/add-inventory", utilities.handleErrors(invController.buildAddInventory)) // add inventory
-    .get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON)) // get inventory JSON
-    .get("/edit/:inv_id", utilities.handleErrors(invController.buildEditInventory)) // edit inventory
-    .get("/delete/:inv_id", utilities.handleErrors(invController.buildDeleteInventory)); // delete inventory
+    .get("/", utilities.checkAccess, utilities.handleErrors(invController.buildManagement)) // management page
+    .get("/add-classification", utilities.checkAccess, utilities.handleErrors(invController.buildAddClassification)) // add classification
+    .get("/add-inventory", utilities.checkAccess, utilities.handleErrors(invController.buildAddInventory)) // add inventory
+    .get("/getInventory/:classification_id", utilities.checkAccess, utilities.handleErrors(invController.getInventoryJSON)) // get inventory JSON
+    .get("/edit/:inv_id", utilities.checkAccess, utilities.handleErrors(invController.buildEditInventory)) // edit inventory
+    .get("/delete/:inv_id", utilities.checkAccess, utilities.handleErrors(invController.buildDeleteInventory)); // delete inventory
 
 // Process data
 router.post(
@@ -37,7 +37,7 @@ router.post(
     utilities.handleErrors(invController.updateInventory)
 )
 
-router.post(
+router.post( // router.delete?
     "/delete",
     utilities.handleErrors(invController.deleteInventory)
 )

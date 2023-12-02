@@ -110,15 +110,21 @@ Util.buildDropDownForm = async function(classification_id){
   return classificationList
 }
 
-/* ****************************************
- *  Check Login
- * ************************************ */
-Util.checkLogin = (req, res, next) => {
+/* ***************************
+ *  Check Access
+ * ************************** */
+Util.checkAccess = (req, res, next) => {
   if (res.locals.loggedin) {
-    next()
-  } else {
-    req.flash("notice", "Please log in.")
-    return res.redirect("/account/login")
+    const account = res.locals.accountData;
+    if (account.account_type == "Employee" || account.account_type == "Admin") {
+      next()
+    } else {
+      req.flash("notice", "Sorry, you do not have access to this page. Log in as an employee or admin.")
+      res.redirect("/account/login")
+    }
+  }else {
+    req.flash("notice", "Log in for access.")
+    res.redirect("/account/login")
   }
 }
 

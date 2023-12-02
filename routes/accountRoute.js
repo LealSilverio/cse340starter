@@ -9,11 +9,14 @@ require("dotenv").config()
 
 // Route to build pages
 router
-    .get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildManagement)) // management view
+    .get("/", utilities.checkAccess, utilities.handleErrors(accountController.buildManagement)) // management view
     .get("/login", utilities.handleErrors(accountController.buildLogin)) // login view
-    .get("/register", utilities.handleErrors(accountController.buildRegister)); // registration view
+    .get("/register", utilities.handleErrors(accountController.buildRegister)) // registration view
+    .get("/logout", utilities.handleErrors(accountController.logOut)) // logout
+    .get("/update/:account_id", utilities.checkAccess, utilities.handleErrors(accountController.buildUpdateAccount)); // update account
 
-    // Process the registration data
+
+// Process the registration data
 router.post(
     "/register",
     regValidate.registrationRules(),
@@ -28,4 +31,19 @@ router.post(
     utilities.handleErrors(accountController.logToAccount)
 )
 
+// Process the update attempt
+router.post(
+    "/update/",
+    regValidate.updateRules(),
+    regValidate.checkUpdateData,
+    utilities.handleErrors(accountController.updateAccount)
+)
+
+// Process the password update attempt
+router.post(
+    "/update-password/",
+    regValidate.updatePasswordRules(),
+    regValidate.checkUpdatePasswordData,
+    utilities.handleErrors(accountController.updatePassword)
+)
 module.exports = router;

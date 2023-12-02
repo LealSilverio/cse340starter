@@ -1,9 +1,11 @@
 const pool = require("../database")
 
+const accountModel = {}
+
 /* *****************************
 *   Register new account
 * *************************** */
-async function registerAccount(account_firstname, account_lastname, account_email, account_password){
+ accountModel.registerAccount = async function (account_firstname, account_lastname, account_email, account_password){
     try {
       const sql = "INSERT INTO account (account_firstname, account_lastname, account_email, account_password, account_type) VALUES ($1, $2, $3, $4, 'Client') RETURNING *"
       return await pool.query(sql, [account_firstname, account_lastname, account_email, account_password])
@@ -15,7 +17,7 @@ async function registerAccount(account_firstname, account_lastname, account_emai
 /* **********************
  *   Check for existing email
  * ********************* */
-async function checkExistingEmail(account_email){
+ accountModel.checkExistingEmail = async function (account_email){
   try {
     const sql = "SELECT * FROM account WHERE account_email = $1"
     const email = await pool.query(sql, [account_email])
@@ -28,10 +30,10 @@ async function checkExistingEmail(account_email){
 /* *****************************
 * Return account data using email address
 * ***************************** */
-async function getAccountByEmail (account_email) {
+ accountModel.getAccountByEmail = async function (account_email) {
   try {
     const result = await pool.query(
-      'SELECT account_id, account_firstname, account_lastname, account_email, account_type, account_password FROM account WHERE account_email = $1',
+      'SELECT * FROM account WHERE account_email = $1',
       [account_email])
     return result.rows[0]
   } catch (error) {
@@ -39,4 +41,42 @@ async function getAccountByEmail (account_email) {
   }
 }
 
-module.exports = { registerAccount, checkExistingEmail,getAccountByEmail }
+/* *****************************
+* Return account data using account_id
+* ***************************** */
+ accountModel.getAccountById = async function (account_id) {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM account WHERE account_id = $1',
+      [account_id])
+    return result.rows[0]
+  } catch (error) {
+    return new Error("No matching account found")
+  }
+}
+
+/* *****************************
+* Update Account
+* ***************************** */
+ accountModel.updateAccount = async function (account_id, account_firstname, account_lastname, account_email) {
+  try {
+    const sql = "UPDATE account SET account_firstname = $1, account_lastname = $2, account_email = $3 WHERE account_id = $4 RETURNING *"
+    return await pool.query(sql, [account_firstname, account_lastname, account_email, account_id])
+  } catch (error) {
+    return error.message
+  }
+}
+
+/* *****************************
+* Update Password
+* ***************************** */
+ accountModel.updatePassword = async function (account_id, account_password) {
+  try {
+    const sql = "UPDATE account SET account_password = $1 WHERE account_id = $2 RETURNING *"
+    return await pool.query(sql, [account_password, account_id])
+  } catch (error) {
+    return error.message
+  }
+}
+
+module.exports = accountModel

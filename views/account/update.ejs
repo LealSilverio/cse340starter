@@ -1,0 +1,49 @@
+<!-- Content Heading -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+} %>
+
+<!-- Message Block -->
+<%- messages() %>
+<% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+<% } %>
+
+<!-- Display Form -->
+<h3>Account Update</h3>
+<form action="/account/update" method="post" id="updateForm">
+    <div class="data-box">
+        <label for="account_firstname">First Name</label>
+        <input type="text" name="account_firstname" id="account_firstname" required placeholder="<%= locals.account_firstname %>" value="<%= locals.account_firstname %>">
+
+        <label for="account_lastname">Last Name</label>
+        <input type="text" name="account_lastname" id="account_lastname" required placeholder="<%= locals.account_lastname %>" value="<%= locals.account_lastname %>">
+
+        <label for="account_email">Email Address</label>
+        <input type="email" name="account_email" id="account_email" required placeholder="<%= locals.account_email %>" value="<%= locals.account_email %>">
+
+    </div>
+    <button disabled>Update Account Info</button>
+</form>
+
+<h3>Password Update</h3>
+<form action="/account/update-password" method="post">
+    <div class="data-box">
+        <label for="account_password">New Password</label>
+        <input type="password" name="account_password" id="account_password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" required>
+        
+        <span>Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special character</span>
+    </div>
+    <button>Update Account Info</button>
+    <input type="hidden" name="account_id"
+            <% if(locals.account_id) { %> value="<%= locals.account_id %>"
+            <% } %>>
+</form>
+
+<script src="../../js/update.js"></script>
