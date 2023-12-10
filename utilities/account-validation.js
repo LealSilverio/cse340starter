@@ -142,13 +142,7 @@ validate.updateRules = () => {
     .trim()
     .isEmail()
     .normalizeEmail() // refer to validator.js docs
-    .withMessage("A valid email is required.")
-    .custom(async (account_email) => {
-      const emailExists = await accountModel.checkExistingEmail(account_email)
-      if (emailExists){
-        throw new Error("Email exists. Please use a different email")
-      }
-    }),
+    .withMessage("A valid email is required."),
   ]
 }
 
@@ -160,6 +154,7 @@ validate.checkUpdateData = async (req, res, next) => {
   let errors = []
   errors = validationResult(req)
   if (!errors.isEmpty()) {
+    try {
     let nav = await utilities.getNav()
     res.render("account/update", {
       errors,
@@ -170,6 +165,10 @@ validate.checkUpdateData = async (req, res, next) => {
       account_email,
     })
     return
+    } catch (err) {
+      console.log("Error checking rules: ", err)
+      return error.message
+    }
   }
   next()
 }

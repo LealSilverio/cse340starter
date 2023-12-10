@@ -49,14 +49,14 @@ validate.checkClassificationData = async (req, res, next) => {
 validate.insertInvRules = () => {
     return [
       // classification is required
-      // body("classification_id")
-      // .isLength({ min:1 })  
-      // .withMessage("Please provide a car make."),
+      body("classification_id")
+      .isLength({ min:1 })  
+      .withMessage("Please provide a car make."),
 
       // make is required and must be string
       body("inv_make")
         .trim()
-        .isLength({ min: 1 })
+        .isLength({ min: 2 })
         .withMessage("Please provide a car make."),
   
       // model is required and must be string
@@ -68,41 +68,34 @@ validate.insertInvRules = () => {
       // year is required and must be a number
       body("inv_year")
         .trim()
-        .isInt({ min: 4, max: 4 })
-        .isLength({min: 4})
+        .isLength({min: 4, max: 4})
         .withMessage("Please provide a 4 digit year."),
 
       // description is required and must be a string
       body("inv_description")
         .trim()
-        .isLength({ min: 28 })
+        .isLength({ min: 5 })
         .withMessage("Please provide a description."),
 
       // image is required and must be a string
       body("inv_image")
         .trim()
-        .isIn([ "png" || "jpeg" || "jpg" || "webp" || "svg" ])
         .isLength({ min: 3 })
         .withMessage("Please provide a valid image path."),
       
       // thumbnail is required and must be a string
       body("inv_thumbnail")
         .trim()
-        .matches("/(.*\.(jpe?g|png|webp|svg)$)/i") 
         .isLength({ min: 3 })
         .withMessage("Please provide a valid thumbnail path."),
 
       // price is required and must be a number
       body("inv_price")
-        .isInt({ min: 1, max: 9 })
-        .escape()
         .isLength({min: 1})
         .withMessage("Please provide a price."),
 
       // miles is required and must be a number
       body("inv_miles")
-        .isInt({ min: 1, max: 12 })
-        .escape()
         .isLength({min: 1})
         .withMessage("Please provide the miles."),
 
@@ -118,8 +111,7 @@ validate.insertInvRules = () => {
  * Check data and return errors or continue to registration
  * ***************************** */
 validate.checkInvData = async (req, res, next) => {
-    const { 
-      classification_id, 
+    const {  
       inv_make, 
       inv_model, 
       inv_year, 
@@ -128,9 +120,12 @@ validate.checkInvData = async (req, res, next) => {
       inv_thumbnail, 
       inv_price, 
       inv_miles, 
-      inv_color } = req.body
+      inv_color, 
+      classification_id } = req.body
+
     let errors = []
-    // errors = validationResult(req)
+    errors = validationResult(req)
+
     if (!errors.isEmpty()) {
       let nav = await utilities.getNav()
       const dropDown = utilities.buildDropDownForm(classification_id);
@@ -161,7 +156,6 @@ validate.checkInvData = async (req, res, next) => {
 validate.checkUpdateData = async (req, res, next) => {
   const { 
     inv_id, 
-    classification_id, 
     inv_make, 
     inv_model, 
     inv_year, 
@@ -170,14 +164,16 @@ validate.checkUpdateData = async (req, res, next) => {
     inv_thumbnail, 
     inv_price, 
     inv_miles, 
-    inv_color } = req.body
+    inv_color, 
+    classification_id  } = req.body
   let errors = []
   errors = validationResult(req)
+
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav()
     const dropDown = utilities.buildDropDownForm(classification_id);
-    const itemTitle = `${inventory_item[0].inv_make} ${inventory_item[0].inv_model}`
-    res.render("./inventory/edit-inventory", {
+    const itemTitle = `${inv_make} ${inv_model}`
+    res.render("inventory/edit-inventory", {
       errors,
       title: "Update "+ itemTitle,
       nav,

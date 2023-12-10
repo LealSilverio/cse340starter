@@ -18,7 +18,7 @@
 <p>Confirm Deletion - The delete is permanent.</p>
 
 <!-- Display form -->
-<form action="/inv/delete" method="post">
+<form action="/inv/delete/" method="post">
     <div class="data-box">
         <label for="inv_make">Make</label>
         <input readonly type="text" name="inv_make" id="inv_make" required value="<%= locals.inv_make %>">
@@ -33,7 +33,7 @@
         <input readonly type="text" name="inv_price" id="inv_price" required  value="<%= locals.inv_price %>">
 
     </div>
-    <button type="submit">Delete Vehicle</button>
+    <button>Delete Vehicle</button>
     
     <input type="hidden" name="inv_id"
     <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"

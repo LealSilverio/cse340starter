@@ -115,6 +115,18 @@ Util.buildDropDownForm = async function(classification_id){
  * ************************** */
 Util.checkAccess = (req, res, next) => {
   if (res.locals.loggedin) {
+    next()
+  }else {
+    req.flash("notice", "Log in for access.")
+    res.redirect("/account/login")
+  }
+}
+
+/* ***************************
+ *  Check Authorization
+ * ************************** */
+Util.checkAuthorization = (req, res, next) => {
+  if (res.locals.loggedin) {
     const account = res.locals.accountData;
     if (account.account_type == "Employee" || account.account_type == "Admin") {
       next()

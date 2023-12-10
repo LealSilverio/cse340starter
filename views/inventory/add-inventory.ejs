@@ -34,10 +34,10 @@
         <textarea name="inv_description" id="inv_description" cols="30" rows="10" placeholder="Insert description here... " required><%=locals.inv_description%></textarea>
 
         <label for="inv_image">Image path</label>
-        <input type="text" name="inv_image" id="inv_image" pattern="(.*\.(jpe?g|png|webp|svg))" required value="<%= locals.inv_image %>public/images/vehicles/no-image.png">
+        <input type="text" name="inv_image" id="inv_image" pattern="(.*\.(jpe?g|png|webp|svg))" required value="<%= locals.inv_image %>">
 
         <label for="inv_thumbnail">Thumbnail path</label>
-        <input type="text" name="inv_thumbnail" id="inv_thumbnail" required pattern="(.*\.(jpe?g|png|webp|svg))" value="<%= locals.inv_thumbnail %>public/images/vehicles/no-image-tn.png">
+        <input type="text" name="inv_thumbnail" id="inv_thumbnail" required pattern="(.*\.(jpe?g|png|webp|svg))" value="<%= locals.inv_thumbnail %>">
 
         <label for="inv_price">Price</label>
         <input type="number" name="inv_price" id="inv_price" placeholder="e.g 13000" required value="<%= locals.inv_price %>">
@@ -50,3 +50,11 @@
     </div>
     <button>Add</button>
 </form>
+
+<script>
+    const imagePath = document.getElementById('inv_image');
+    const thumbnailPath = document.getElementById('inv_thumbnail');
+
+    imagePath.value = "/images/vehicles/no-image.png";
+    thumbnailPath.value = "/images/vehicles/no-image-tn.png";
+</script>

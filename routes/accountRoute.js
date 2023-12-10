@@ -15,7 +15,6 @@ router
     .get("/logout", utilities.handleErrors(accountController.logOut)) // logout
     .get("/update/:account_id", utilities.checkAccess, utilities.handleErrors(accountController.buildUpdateAccount)); // update account
 
-
 // Process the registration data
 router.post(
     "/register",

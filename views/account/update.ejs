@@ -17,7 +17,7 @@
 
 <!-- Display Form -->
 <h3>Account Update</h3>
-<form action="/account/update" method="post" id="updateForm">
+<form action="/account/update/" method="post" id="updateForm">
     <div class="data-box">
         <label for="account_firstname">First Name</label>
         <input type="text" name="account_firstname" id="account_firstname" required placeholder="<%= locals.account_firstname %>" value="<%= locals.account_firstname %>">
@@ -29,11 +29,11 @@
         <input type="email" name="account_email" id="account_email" required placeholder="<%= locals.account_email %>" value="<%= locals.account_email %>">
 
     </div>
-    <button disabled>Update Account Info</button>
+    <button type="submit" disabled>Update Account Info</button>
 </form>
 
 <h3>Password Update</h3>
-<form action="/account/update-password" method="post">
+<form action="/account/update-password/" method="post">
     <div class="data-box">
         <label for="account_password">New Password</label>
         <input type="password" name="account_password" id="account_password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" required>

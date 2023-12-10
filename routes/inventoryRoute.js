@@ -9,12 +9,12 @@ const insertValidate = require('../utilities/adding-validation')
 router
     .get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId)) // inventory by classification view
     .get("/detail/:inv_id", utilities.handleErrors(invController.buildById)) // product page
-    .get("/", utilities.checkAccess, utilities.handleErrors(invController.buildManagement)) // management page
-    .get("/add-classification", utilities.checkAccess, utilities.handleErrors(invController.buildAddClassification)) // add classification
-    .get("/add-inventory", utilities.checkAccess, utilities.handleErrors(invController.buildAddInventory)) // add inventory
-    .get("/getInventory/:classification_id", utilities.checkAccess, utilities.handleErrors(invController.getInventoryJSON)) // get inventory JSON
-    .get("/edit/:inv_id", utilities.checkAccess, utilities.handleErrors(invController.buildEditInventory)) // edit inventory
-    .get("/delete/:inv_id", utilities.checkAccess, utilities.handleErrors(invController.buildDeleteInventory)); // delete inventory
+    .get("/", utilities.checkAccess, utilities.checkAuthorization, utilities.handleErrors(invController.buildManagement)) // management page
+    .get("/add-classification", utilities.checkAccess, utilities.checkAuthorization, utilities.handleErrors(invController.buildAddClassification)) // add classification
+    .get("/add-inventory", utilities.checkAccess, utilities.checkAuthorization, utilities.handleErrors(invController.buildAddInventory)) // add inventory
+    .get("/getInventory/:classification_id", utilities.checkAccess, utilities.checkAuthorization, utilities.handleErrors(invController.getInventoryJSON)) // get inventory JSON
+    .get("/edit/:inv_id", utilities.checkAccess, utilities.checkAuthorization, utilities.handleErrors(invController.buildEditInventory)) // edit inventory
+    .get("/delete/:inv_id", utilities.checkAccess, utilities.checkAuthorization, utilities.handleErrors(invController.buildDeleteInventory)); // delete inventory
 
 // Process data
 router.post(
@@ -31,14 +31,14 @@ router.post(
 )
 
 router.post(
-    "/edit",
+    "/update/",
     insertValidate.insertInvRules(),
     insertValidate.checkUpdateData,
     utilities.handleErrors(invController.updateInventory)
 )
 
-router.post( // router.delete?
-    "/delete",
+router.post(
+    "/delete/",
     utilities.handleErrors(invController.deleteInventory)
 )
 

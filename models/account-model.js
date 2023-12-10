@@ -63,6 +63,7 @@ const accountModel = {}
     const sql = "UPDATE account SET account_firstname = $1, account_lastname = $2, account_email = $3 WHERE account_id = $4 RETURNING *"
     return await pool.query(sql, [account_firstname, account_lastname, account_email, account_id])
   } catch (error) {
+    console.error('model error: ', error)
     return error.message
   }
 }
@@ -70,11 +71,12 @@ const accountModel = {}
 /* *****************************
 * Update Password
 * ***************************** */
- accountModel.updatePassword = async function (account_id, account_password) {
+ accountModel.updatePassword = async function ( account_password, account_id) {
   try {
     const sql = "UPDATE account SET account_password = $1 WHERE account_id = $2 RETURNING *"
     return await pool.query(sql, [account_password, account_id])
   } catch (error) {
+    console.error('model error: ', error)
     return error.message
   }
 }
