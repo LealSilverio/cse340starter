@@ -60,12 +60,6 @@ nav ul {
   flex-direction: row;
   justify-content: space-around;
 }
-.carImage {
-  max-width: 75%;
-  min-width: 50%;
-  height: auto;
-  margin-left: 100px;
-}
 #wrapper {
   align-items: center;
   background-color: white;
@@ -76,19 +70,19 @@ nav ul {
 .background {
   background-color: #356691;
 }
-.upgrades{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 70px 1fr 1fr;
-  column-gap: 10px;
-  row-gap: 10px;
+.carBox {
+  position: relative;
 }
-.upgrades h2{
-  grid-column: 1/3;
+.carImage{
+  max-width: 75%;
+  min-width: 50%;
+  height: auto;
+  margin-left: 150px;
 }
 .banner {
   position: absolute;
-  top: 20%;
+  left: 25px;
+  top: 50px;
   background-color: rgba(255, 255, 255, 0.4);
   color: #356691;
   font-weight: 700;
@@ -100,6 +94,16 @@ nav ul {
 .banner img {
   width: 150px;
   height: auto;
+}
+.upgrades{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 70px 1fr 1fr;
+  column-gap: 10px;
+  row-gap: 10px;
+}
+.upgrades h2{
+  grid-column: 1/3;
 }
 .reviews li {
   padding-bottom: 10px;
@@ -150,6 +154,9 @@ nav ul {
   border-radius: 11px;
   width: 14.9em;
 }
+#product-display img {
+  max-width: 330px;
+}
 form {
   display: flex;
   flex-direction: column;
@@ -164,7 +171,8 @@ form {
 .data-box input, .data-box textarea, #classificationList {
   padding: 5px 10px;
   margin: 5px 0;
-  width: -webkit-fill-available;
+  display: block;
+  width: 100%;
 }
 .data-box input:valid, .data-box textarea:valid, #classificationList:valid {
   border: solid 3px rgb(15, 182, 15);
@@ -215,5 +223,14 @@ form a{
 @media screen and (min-width: 1500px) {
   .banner {
     top: 30%;
+  }
+  #product-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+  }
+  #product-display img {
+    grid-column: 1/2;
+    max-width: 450px;
   }
 }
